@@ -24,7 +24,7 @@
   )
 
 (defn replace-arg
-  "Receives a generic fact e.g 'parent (Y, X)', a map with the values ​​of the arguments e.g '{X maría, Y roberto}'
+  "Receives a generic fact e.g 'padre(Y, X)', a map with the values ​​of the arguments e.g '{X maría, Y roberto}'
    and replaces the values. It returns the particular fact e.g 'padre(roberto, maría)'"
   [fact map-args]
   (clojure.string/replace fact (re-pattern (clojure.string/join "|" (keys map-args))) map-args)
