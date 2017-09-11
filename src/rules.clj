@@ -3,36 +3,36 @@
   )
 
 (defn is-valid-rule?
-  "Chequea si es una rule valida usando regex"
+  "Given a rule checks if it's valid"
   [rule]
   (not (= nil (re-matches #"^[a-z]+\(.+\) :- ([a-z]+\(.+\))+" rule))))
 
 (defn rule-name
-  "Devuelve el nombre de una rule"
+  "Given a rule, returns his name"
   [rule]
   (subs rule 0 (clojure.string/index-of rule "(")))
 
 (defn exist-rule
-  "Chequea que sea el nombre de una rule devuelve true si es asi"
+  "Given a database and a query, checks whether the query corresponds to the name of a rule in the database"
   [database query]
   (let [rules-names (map rule-name (:rules database))]
     (.contains rules-names (rule-name query))
     ))
 
 (defn get-rule-args
-  ""
+  "Receives a rule returns a list of his arguments"
   [rule]
   (map clojure.string/trim
        (clojure.string/split (subs rule (inc (clojure.string/index-of rule "(")) (clojure.string/index-of rule ")")) #","))
   )
 
 (defn get-rule-facts
-  ""
+  "Receives a rule returns a list of his facts"
   [rule]
   (clojure.string/split (clojure.string/replace (subs rule (+ 3 (clojure.string/index-of rule ":- "))) #"\), " ");") #";"))
 
 (defn get-generic-rule
-  "Busca en la database la rule generica y la devuelve, como los nombres son unicos se que tiene un solo elemento"
+  "Receives the database, a rule's name and returns a generic rule from the database"
   [database rule]
   (nth
    (filter (fn[x] ( = (rule-name x) (rule-name rule)))(:rules database))
@@ -41,7 +41,7 @@
   )
 
 (defn evaluate-rule
-  ""
+  "It receives a database and a rule, evaluates all the facts that make up the rule and returns the result"
   [database rule]
   (let [gen-rule (get-generic-rule database rule)
         gen-facts (get-rule-facts gen-rule)
