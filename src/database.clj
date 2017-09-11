@@ -21,7 +21,7 @@
           (map (fn [x] (or (is-valid-fact? x) (is-valid-rule? x))) database)))
 
 (defn generate-database
-  "Given a raw database as a string, returns a ArrayMap with all the facts and rules"
+  "Given a raw database as a string, returns an ArrayMap with all the facts and rules"
   [raw-database]
   (let [parsed-database (parse-raw-database raw-database)]
     (if (not (is-valid-database? parsed-database)) nil
